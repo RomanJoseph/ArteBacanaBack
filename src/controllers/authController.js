@@ -4,7 +4,6 @@ import { v4 as uuid } from "uuid"
 
 import { registerSchema, loginSchema } from "../schemas/authSchema.js"
 
-
 async function register(req,res){
     let { name, email, password } = req.body
     const isValid = registerSchema.validate({name, email, password})
@@ -38,6 +37,7 @@ async function login(req, res){
 
     try{
         const user = await db.collection("users").findOne({email})
+        console.log(user)
         const isPasswordValid = bcrypt.compareSync(password, user.password)
 
         if(!user || !isPasswordValid){
@@ -50,7 +50,7 @@ async function login(req, res){
             token
         })
         
-        return res.status(200).send(token)
+        return res.status(200).send({token, user: user.name})
     } catch(error){
         res.sendStatus(500)
     }
