@@ -13,7 +13,8 @@ async function sendOrder(req, res){
             return;
         }
 
-        user.history.push({data: req.body, products: user.cart})
+        user.history.push({products: user.cart})
+        user.cart = []
         await db.collection("users").updateOne({_id: user._id}, { $set: user })
         res.send(user)
     }catch(error){
