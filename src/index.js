@@ -14,4 +14,6 @@ app.use(authRoutes);
 app.use(productRoute);
 app.use(cartRoute);
 
+app.get("/status",(req,res) => res.send("Okay"))
+
 app.listen(process.env.PORT, () => console.log(`Magic Happens on ${process.env.PORT}`));
