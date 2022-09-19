@@ -1,5 +1,6 @@
 import { db } from "../db/db.js"
 import { ObjectId } from "mongodb"
+import { productSchema } from "../schemas/productSchema.js";
 
 async function listProducts(req, res) {
     try {
@@ -17,6 +18,11 @@ async function listProducts(req, res) {
 
 async function sendProduct(req, res) {
     const { name, seller, stock, type, image, price, description } = req.body
+    const isValid = productSchema.validate({ name, seller, stock, type, image, price, description })
+
+    if(isValid.error){
+        return res.sendStatus(400)
+    }
 
     try{
         await db.collection("products").insertOne({name, seller, stock, type, image, price, description})
