@@ -3,7 +3,6 @@ import { ObjectId } from "mongodb"
 
 async function addItem(req, res) {
     const { id } = req.body;
-
     const { session } = res.locals;
 
     try {
