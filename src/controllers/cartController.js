@@ -1,12 +1,11 @@
 import { db } from "../db/db.js";
-import { ObjectId } from "mongodb"
 
 async function addItem(req, res) {
     const { id } = req.body;
     const { session } = res.locals;
 
     try {
-        const user = await db.collection("users").findOne({ _id: session.userId })
+        const user = await db.collection("users").findOne({ _id: session.userId });
         if (!user) {
             res.sendStatus(404);
             return;
@@ -31,6 +30,10 @@ async function getCart(req, res) {
 
     try {
         const user = await db.collection("users").findOne({ _id: session.userId });
+        if (!user) {
+            res.sendStatus(404);
+            return;
+        }
 
         const cartArray = user.cart;
 
@@ -45,4 +48,29 @@ async function getCart(req, res) {
     }
 }
 
-export { addItem, getCart }
+async function removeItem(req, res) {
+    const { index } = req.params;
+    
+    const session = res.locals
+
+    try {
+        const user = await db.collection("users").findOne({ _id: session.userId });
+        if (!user) {
+            res.sendStatus(404);
+            return;
+        }
+
+        user.cart.splice(index, 1);
+
+        await db.collection("users").updateOne({
+            _id: user._id
+        }, { $set: user });
+
+        res.sendStatus(200);
+    } catch (error) {
+        res.sendStatus(500);
+        return;
+    }
+}
+
+export { addItem, getCart, removeItem }
