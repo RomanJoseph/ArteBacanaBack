@@ -7,7 +7,7 @@ async function addItem(req, res) {
     const { session } = res.locals;
 
     try {
-        const user = await db.collection("users").findOne({ _id: session.userId})
+        const user = await db.collection("users").findOne({ _id: session.userId })
         if (!user) {
             res.sendStatus(404);
             return;
@@ -17,7 +17,7 @@ async function addItem(req, res) {
 
         await db.collection("users").updateOne({
             _id: user._id
-        }, {$set: user});
+        }, { $set: user });
 
         res.sendStatus(200);
 
@@ -27,4 +27,23 @@ async function addItem(req, res) {
     }
 }
 
-export { addItem }
+async function getCart(req, res) {
+    const { session } = res.locals;
+
+    try {
+        const user = await db.collection("users").findOne({ _id: session.userId });
+
+        const cartArray = user.cart;
+
+        res.send(
+            {
+                cartArray
+            }
+        );
+    } catch (error) {
+        res.sendStatus(500);
+        return;
+    }
+}
+
+export { addItem, getCart }
