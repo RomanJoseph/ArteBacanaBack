@@ -19,7 +19,7 @@ async function register(req,res){
     }
 
     try{
-        const result = await db.collection("users").insertOne({name, email, password, cart: []})
+        const result = await db.collection("users").insertOne({name, email, password, cart: [], history: []})
         return res.sendStatus(201)
     } catch(error){
         console.error(error)

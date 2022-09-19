@@ -2,7 +2,6 @@ import { db } from "../db/db.js";
 
 async function addItem(req, res) {
     const { id } = req.body;
-
     const { session } = res.locals;
 
     try {

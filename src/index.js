@@ -14,4 +14,6 @@ app.use(authRoutes);
 app.use(productRoute);
 app.use(cartRoute);
 
-app.listen("5000", () => console.log("Magic Happens on 5000"));
+app.get("/status",(req,res) => res.send("Okay"))
+
+app.listen(process.env.PORT, () => console.log(`Magic Happens on ${process.env.PORT}`));
