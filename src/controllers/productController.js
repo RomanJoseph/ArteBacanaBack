@@ -29,6 +29,11 @@ async function sendProduct(req, res) {
 
 async function getProduct(req, res){
     const { id } = req.body
+
+    if(id.length !== 24){
+        return res.sendStatus(400)
+    }
+
     const productId = ObjectId(id)
 
     if(!(await db.collection("products").findOne({_id : productId}))){
