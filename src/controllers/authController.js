@@ -37,7 +37,6 @@ async function login(req, res){
 
     try{
         const user = await db.collection("users").findOne({email})
-        console.log(user)
         const isPasswordValid = bcrypt.compareSync(password, user.password)
 
         if(!user || !isPasswordValid){
