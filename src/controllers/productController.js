@@ -34,7 +34,7 @@ async function sendProduct(req, res) {
 }
 
 async function getProduct(req, res){
-    const { id } = req.body
+    const id = req.params.id;
 
     if(id.length !== 24){
         return res.sendStatus(400)
